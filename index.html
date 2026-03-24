@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VisionAttend AI | Smart Attendance by Voxeon Labs</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -159,6 +160,7 @@
             </div>
             
             <div class="hidden md:flex items-center gap-10 text-sm font-black text-slate-100 uppercase tracking-widest">
+                <a href="#" onclick="openAdminSection(); return false;" class="hover:text-emerald-400 transition-colors">VISION ATTEND</a>
                 <a href="#about-voxeon" class="hover:text-emerald-400 transition-colors">Voxeon Labs</a>
                 <a href="#sorting-lab" class="hover:text-emerald-400 transition-colors">Sorting Lab</a>
                 <a href="#ai-hub" class="hover:text-emerald-400 transition-colors">AI Hub</a>
@@ -189,7 +191,7 @@
                         Deploy Engine <i class="fa-solid fa-microchip"></i>
                     </a>
                     <a href="https://instagram.com/voxeonlabs" target="_blank" class="btn-instagram px-10 py-6 rounded-2xl flex items-center gap-4 font-bold">
-                        <i class="fa-brands fa-instagram text-2xl"></i> @voxeonlabs
+                        <i class="fa-brands fa-instagram text-2xl"></i> INSTAGRAM
                     </a>
                 </div>
             </div>
@@ -316,7 +318,7 @@
 
             <div class="grid lg:grid-cols-2 gap-16 items-start">
                 <div class="space-y-10">
-                    <div class="glass-card p-10 rounded-3xl flex items-start gap-8 group">
+                    <a href="mailto:voxeonlabs@gmail.com" class="glass-card p-10 rounded-3xl flex items-start gap-8 group hover:ring-2 hover:ring-emerald-400 transition-all" target="_blank">
                         <div class="w-16 h-16 bg-emerald-500/10 rounded-2xl flex items-center justify-center border border-emerald-500/20 group-hover:bg-emerald-500 group-hover:text-black transition-all">
                             <i class="fa-solid fa-envelope text-2xl"></i>
                         </div>
@@ -325,9 +327,9 @@
                             <p class="text-slate-400 font-medium">voxeonlabs@gmail.com</p>
                             <p class="text-xs text-slate-500 mt-2 uppercase tracking-widest font-black">24-hour response cycle</p>
                         </div>
-                    </div>
+                    </a>
 
-                    <div class="glass-card p-10 rounded-3xl flex items-start gap-8 group">
+                    <a href="https://maps.app.goo.gl/2bkTZLmysh2EAeQH8" target="_blank" class="glass-card p-10 rounded-3xl flex items-start gap-8 group hover:ring-2 hover:ring-emerald-400 transition-all">
                         <div class="w-16 h-16 bg-emerald-500/10 rounded-2xl flex items-center justify-center border border-emerald-500/20 group-hover:bg-emerald-500 group-hover:text-black transition-all">
                             <i class="fa-solid fa-location-dot text-2xl"></i>
                         </div>
@@ -335,34 +337,55 @@
                             <h4 class="text-xl font-bold text-white mb-2">R&D Headquarters</h4>
                             <p class="text-slate-400 font-medium">Level 2, Thejus Engineering College<br>Vellarkad,Thrissur, IN</p>
                         </div>
-                    </div>
+                    </a>
 
                     <div class="flex gap-6 pt-6">
                         <a href="#" class="w-14 h-14 glass-card rounded-xl flex items-center justify-center text-slate-400 hover:text-emerald-400"><i class="fa-brands fa-linkedin-in text-xl"></i></a>
                         <a href="https://instagram.com/voxeonlabs" target="_blank" class="w-14 h-14 glass-card rounded-xl flex items-center justify-center text-slate-400 hover:text-emerald-400"><i class="fa-brands fa-instagram text-xl"></i></a>
                         <a href="#" class="w-14 h-14 glass-card rounded-xl flex items-center justify-center text-slate-400 hover:text-emerald-400"><i class="fa-brands fa-x-twitter text-xl"></i></a>
+                        <a href="https://adhimanoj.github.io/" target="_blank" class="w-14 h-14 glass-card rounded-xl flex items-center justify-center text-slate-400 hover:text-emerald-400 font-bold text-2xl">V</a>
+                    </div>
+                </div>
+
+                <div id="admin-section" class="fixed inset-0 z-[1000] hidden items-center justify-center bg-black/70 p-6">
+                    <div class="max-w-md w-full glass-card p-8 rounded-3xl border-emerald-400/20">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-2xl font-bold text-white">Admin Access</h3>
+                            <button onclick="closeAdminSection()" class="text-slate-400 hover:text-white">✕</button>
+                        </div>
+                        <p class="text-slate-300 mb-4">Enter admin password to unlock the restricted section.</p>
+                        <input id="admin-password" type="password" placeholder="Type admin password" class="w-full input-field py-3 px-4 rounded-xl mb-4">
+                        <button onclick="verifyAdminPassword(); return false;" class="w-full btn-primary py-3 rounded-xl">Unlock</button>
+                        <p id="admin-error" class="mt-3 text-sm text-red-400 hidden">Invalid password. Try again.</p>
+                        <div id="admin-content" class="mt-6 hidden p-4 rounded-xl border border-emerald-500/30 bg-slate-950/70">
+                            <h4 class="text-lg font-bold text-emerald-300">Admin Panel</h4>
+                            <p class="text-slate-300 text-sm mt-2">Restricted content for admins only. Change credentials, manage users, and oversee system interaction from here.</p>
+                            <h5 class="text-sm text-white mt-4 mb-2 uppercase tracking-wider">Demo Requests</h5>
+                            <ul id="demo-requests" class="space-y-2 text-slate-200 text-xs">No requests yet.</ul>
+                            <button onclick="clearDemoRequests()" class="mt-4 w-full py-2 rounded-lg bg-red-500/20 border border-red-500/40 text-red-300 hover:bg-red-500/30 transition-all text-sm font-bold">Clear All Requests</button>
+                        </div>
                     </div>
                 </div>
 
                 <div class="glass-card p-12 rounded-[3rem] border-white/5 bg-slate-950/40">
-                    <form class="space-y-6" onsubmit="event.preventDefault(); alert('Transmission Received. Our AI Core will process your request.');">
+                    <form id="demo-request-form" class="space-y-6" onsubmit="handleDemoRequest(event)">
                         <div class="grid md:grid-cols-2 gap-6">
                             <div class="space-y-2">
                                 <label class="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-2">Name</label>
-                                <input type="text" placeholder="John Doe" class="input-field w-full p-5 rounded-2xl font-bold">
+                                <input id="request-name" type="text" placeholder="John Doe" class="input-field w-full p-5 rounded-2xl font-bold" required>
                             </div>
                             <div class="space-y-2">
                                 <label class="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-2">Organization</label>
-                                <input type="text" placeholder="Acme Corp" class="input-field w-full p-5 rounded-2xl font-bold">
+                                <input id="request-org" type="text" placeholder="Acme Corp" class="input-field w-full p-5 rounded-2xl font-bold" required>
                             </div>
                         </div>
                         <div class="space-y-2">
                             <label class="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-2">Email Address</label>
-                            <input type="email" placeholder="john@enterprise.com" class="input-field w-full p-5 rounded-2xl font-bold">
+                            <input id="request-email" type="email" placeholder="john@enterprise.com" class="input-field w-full p-5 rounded-2xl font-bold" required>
                         </div>
                         <div class="space-y-2">
                             <label class="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-2">Interest</label>
-                            <select class="input-field w-full p-5 rounded-2xl font-bold appearance-none">
+                            <select id="request-interest" class="input-field w-full p-5 rounded-2xl font-bold appearance-none" required>
                                 <option>Product Demo Request</option>
                                 <option>Investor Inquiry</option>
                                 <option>API Early Access</option>
@@ -370,7 +393,7 @@
                         </div>
                         <div class="space-y-2">
                             <label class="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-2">Message</label>
-                            <textarea rows="4" placeholder="How can VisionAttend help you?" class="input-field w-full p-5 rounded-2xl font-bold"></textarea>
+                            <textarea id="request-message" rows="4" placeholder="How can VisionAttend help you?" class="input-field w-full p-5 rounded-2xl font-bold" required></textarea>
                         </div>
                         <button type="submit" class="w-full btn-primary py-6 rounded-2xl text-lg font-black mt-4">Initialize Demo Request <i class="fa-solid fa-paper-plane ml-3"></i></button>
                     </form>
@@ -465,6 +488,62 @@
             }, 250);
         }
 
+        function openAdminSection() {
+            document.getElementById('admin-section').classList.remove('hidden');
+            document.getElementById('admin-password').value = '';
+            document.getElementById('admin-error').classList.add('hidden');
+            document.getElementById('admin-content').classList.add('hidden');
+        }
+
+        function closeAdminSection() {
+            document.getElementById('admin-section').classList.add('hidden');
+        }
+
+        function verifyAdminPassword() {
+            const pw = document.getElementById('admin-password').value;
+            const error = document.getElementById('admin-error');
+            const content = document.getElementById('admin-content');
+            if(pw === 'vox001ceo') {
+                error.classList.add('hidden');
+                content.classList.remove('hidden');
+            } else {
+                error.classList.remove('hidden');
+                content.classList.add('hidden');
+            }
+        }
+
+        function clearDemoRequests() {
+            const requestList = document.getElementById('demo-requests');
+            requestList.innerHTML = 'No requests yet.';
+        }
+
+        function handleDemoRequest(event) {
+            event.preventDefault();
+            const name = document.getElementById('request-name').value.trim();
+            const org = document.getElementById('request-org').value.trim();
+            const email = document.getElementById('request-email').value.trim();
+            const interest = document.getElementById('request-interest').value;
+            const message = document.getElementById('request-message').value.trim();
+            const requestList = document.getElementById('demo-requests');
+
+            if (!name || !org || !email || !message) {
+                alert('Please fill in all fields of the request form.');
+                return;
+            }
+
+            const item = document.createElement('li');
+            item.className = 'p-3 rounded-lg bg-slate-900/80 border border-emerald-500/20';
+            item.innerHTML = `<strong>${name}</strong> (${org}, ${email})<br><span class="text-slate-400">${interest}</span><br>${message}`;
+
+            if (requestList.innerText.trim().toLowerCase() === 'no requests yet.') {
+                requestList.innerText = '';
+            }
+
+            requestList.prepend(item);
+            alert('Transmission Received. Our AI Core will process your request.');
+            document.getElementById('demo-request-form').reset();
+        }
+
         const staff = [
             { id: 1, name: "Rahul M.", time: "08:55", status: "ontime" },
             { id: 2, name: "Anjali S.", time: "09:04", status: "grace" },
@@ -549,74 +628,107 @@
             res.classList.remove('hidden');
             res.innerHTML = '<p class="animate-pulse text-emerald-400 font-black text-center tracking-widest text-sm uppercase">Voxeon AI Core Drafting Legal Protocol...</p>';
 
-            const systemPrompt = "You are the Chief Legal AI Architect at Voxeon Labs. You draft legally-binding technology implementation policies for student-led AI initiatives.";
-            const userPrompt = `Draft a formal AI Attendance Policy Agreement between Voxeon Labs (The Provider) and ${targetOrg} (The Client). This is for a ${org} environment. Include specific clauses for data privacy, edge-computing verification, and punctuality thresholds. 
+            // Simulate AI processing delay
+            await new Promise(resolve => setTimeout(resolve, 2000));
 
-            CRITICAL: The document MUST end with a formal signature block for the Voxeon Labs CEO and placeholders for the Client's representative. Use professional, futuristic legal tone.`;
+            // Generate mock policy content based on inputs
+            const mockPolicy = `
+                <p><strong class="text-emerald-400">PARTIES TO THE AGREEMENT</strong></p>
+                <p>This AI Attendance Policy Agreement ("Agreement") is entered into on ${new Date().toLocaleDateString()} between Voxeon Labs ("Provider"), an innovative technology solutions company, and ${targetOrg} ("Client"), a ${org.toLowerCase()} entity.</p>
 
-            try {
-                const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
-                const payload = {
-                    contents: [{ parts: [{ text: userPrompt }] }],
-                    systemInstruction: { parts: [{ text: systemPrompt }] }
-                };
+                <p><strong class="text-emerald-400">SCOPE OF SERVICES</strong></p>
+                <p>The Provider shall deploy VisionAttend AI, an advanced facial recognition attendance system, optimized for ${org.toLowerCase()} environments with edge-computing capabilities and real-time processing.</p>
 
-                const data = await fetchWithRetry(endpoint, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(payload)
-                });
+                <p><strong class="text-emerald-400">DATA PRIVACY & SECURITY</strong></p>
+                <p>All biometric data shall be encrypted using AES-256 standards and processed locally on edge devices. No facial data shall be transmitted to external servers without explicit Client consent. Data retention shall not exceed 30 days unless otherwise specified.</p>
 
-                const resultText = data.candidates?.[0]?.content?.parts?.[0]?.text;
-                if (!resultText) throw new Error("No response from AI.");
+                <p><strong class="text-emerald-400">TECHNICAL SPECIFICATIONS</strong></p>
+                <p>The system shall maintain 99.8% accuracy with 0.3-second processing latency. Punctuality thresholds: On-time (within 5 minutes), Grace Period (5-15 minutes), Late (beyond 15 minutes).</p>
 
-                const formattedHtml = resultText
-                    .replace(/\*\*(.*?)\*\*/g, '<strong class="text-emerald-400">$1</strong>')
-                    .replace(/\n/g, '<br>');
+                <p><strong class="text-emerald-400">COMPLIANCE & REGULATIONS</strong></p>
+                <p>This Agreement complies with applicable data protection laws. The Client acknowledges the cutting-edge nature of AI development and accepts associated technological risks.</p>
 
-                const signatureBlock = `
-                    <div class="mt-16 pt-12 border-t border-emerald-500/30 grid grid-cols-2 gap-12">
-                        <div class="space-y-4">
-                            <p class="text-[10px] uppercase tracking-widest text-slate-500 font-black">Authorized Signatory - Provider</p>
-                            <div class="py-4 font-orbitron italic text-emerald-400 border-b border-emerald-500/50">
-                                Voxeon Labs CEO - Student Initiative Lead
-                            </div>
-                            <p class="text-xs font-bold text-white uppercase">Voxeon Labs R&D</p>
+                <p><strong class="text-emerald-400">TERMINATION</strong></p>
+                <p>Either party may terminate this Agreement with 30 days written notice. Upon termination, all data shall be securely erased from Provider systems.</p>
+            `;
+
+            const signatureBlock = `
+                <div class="mt-16 pt-12 border-t border-emerald-500/30 grid grid-cols-2 gap-12">
+                    <div class="space-y-4">
+                        <p class="text-[10px] uppercase tracking-widest text-slate-500 font-black">Authorized Signatory - Provider</p>
+                        <div class="py-4 font-orbitron italic text-emerald-400 border-b border-emerald-500/50">
+                            Voxeon Labs CEO - Executive Director
                         </div>
-                        <div class="space-y-4">
-                            <p class="text-[10px] uppercase tracking-widest text-slate-500 font-black">Authorized Signatory - Client</p>
-                            <div class="py-4 text-slate-600 italic border-b border-white/20">
-                                [Digital Signature Required]
-                            </div>
-                            <p class="text-xs font-bold text-white uppercase">${targetOrg}</p>
+                        <p class="text-xs font-bold text-white uppercase">Voxeon Labs R&D</p>
+                    </div>
+                    <div class="space-y-4">
+                        <p class="text-[10px] uppercase tracking-widest text-slate-500 font-black">Authorized Signatory - Client</p>
+                        <div class="py-4 text-slate-600 italic border-b border-white/20">
+                            [Digital Signature Required]
                         </div>
+                        <p class="text-xs font-bold text-white uppercase">${targetOrg}</p>
                     </div>
-                    <div class="mt-10 text-center">
-                         <p class="text-[9px] text-slate-600 uppercase font-black tracking-widest">Technically Verified by Voxeon AI Core • CC: Thrissur R&D Office</p>
-                    </div>
-                `;
+                </div>
+                <div class="mt-10 text-center">
+                     <p class="text-[9px] text-slate-600 uppercase font-black tracking-widest">Technically Verified by Voxeon AI Core • CC: Thrissur R&D Office(mock aggrement)</p>
+                </div>
+            `;
 
-                res.innerHTML = `
-                    <div class="prose prose-invert max-w-none text-slate-200 leading-loose text-lg font-medium">
-                        <div class="text-center mb-10">
-                            <i class="fa-solid fa-expand text-emerald-500 text-5xl mb-4"></i>
-                            <h2 class="text-3xl font-orbitron font-black uppercase text-white tracking-tighter">Voxeon Protocol v2.5</h2>
-                        </div>
-                        ${formattedHtml}
-                        ${signatureBlock}
-                    </div>`;
-            } catch (error) {
-                res.innerHTML = `
-                    <div class="text-center space-y-4">
-                        <i class="fa-solid fa-triangle-exclamation text-rose-500 text-4xl"></i>
-                        <p class="text-rose-400 font-bold uppercase tracking-widest">Legal Core Timeout</p>
-                        <p class="text-slate-400 text-sm">Our Legal Engine is under maintenance. Please try again.</p>
+            res.innerHTML = `
+                <div class="prose prose-invert max-w-none text-slate-200 leading-loose text-lg font-medium">
+                    <div class="text-center mb-10">
+                        <i class="fa-solid fa-expand text-emerald-500 text-5xl mb-4"></i>
+                        <h2 class="text-3xl font-orbitron font-black uppercase text-white tracking-tighter">Voxeon Protocol v2.5</h2>
                     </div>
-                `;
-            } finally {
-                btn.disabled = false;
-                btn.innerText = "Regenerate Contract ✨";
-            }
+                    ${mockPolicy}
+                    ${signatureBlock}
+                    <div class="text-center mt-12">
+                        <button onclick="downloadAgreement('${targetOrg.replace(/'/g, "\\'")}', '${mockPolicy.replace(/'/g, "\\'").replace(/\n/g, '\\n').replace(/<[^>]*>/g, '')}', '${signatureBlock.replace(/'/g, "\\'").replace(/\n/g, '\\n').replace(/<[^>]*>/g, '')}')" class="btn-primary px-8 py-4 rounded-2xl text-lg font-black">
+                            <i class="fa-solid fa-download mr-3"></i>Download Agreement
+                        </button>
+                    </div>
+                </div>`;
+
+            btn.disabled = false;
+            btn.innerText = "Regenerate Contract ✨";
+        }
+
+        function downloadAgreement(clientName, policyContent, signatureContent) {
+            const agreementText = `
+VOXEON PROTOCOL v2.5
+
+${policyContent}
+
+${signatureContent}
+
+Generated on: ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}
+Client: ${clientName}
+Provider: Voxeon Labs
+            `;
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({ unit: 'pt', format: 'a4' });
+            const lineHeight = 14;
+            const margin = 40;
+            const pageWidth = doc.internal.pageSize.getWidth() - margin * 2;
+            const lines = doc.splitTextToSize(agreementText, pageWidth);
+
+            let y = 60;
+            doc.setFontSize(11);
+            doc.setTextColor(25, 25, 25);
+            doc.text('Voxeon Protocol v2.5', margin, y);
+            y += 30;
+
+            lines.forEach((line) => {
+                if (y > doc.internal.pageSize.getHeight() - 60) {
+                    doc.addPage();
+                    y = 60;
+                }
+                doc.text(line, margin, y);
+                y += lineHeight;
+            });
+
+            doc.save(`Voxeon_Agreement_${clientName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`);
         }
 
         window.onload = function() {

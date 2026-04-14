@@ -40,6 +40,7 @@ vision-attend-ai-website/
     ├── STYLING_GUIDE.md# CSS patterns and Tailwind configuration
     ├── DEVELOPMENT.md  # Development workflow and contribution guide
     ├── RULES.md        # Repository rules and conventions
+    ├── BATCH_ISSUE_CREATOR.md  # Batch issue creation workflow
     └── MULTI_AGENT_WORKFLOW.md # Standardized workflow for all multi-agent (Claude, Qwen, Gemini, etc.) tasks
 ```
 

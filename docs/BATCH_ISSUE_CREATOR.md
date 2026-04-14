@@ -1,9 +1,6 @@
----
-name: batch-issue-creator
-description: Use this skill when you need to create multiple GitHub issues (more than 2 or 3) at once to avoid rate limits or interactive prompt constraints.
----
-
 # Batch Issue Creator
+
+Use this workflow when you need to create multiple GitHub issues (more than 2 or 3) at once to avoid rate limits or interactive prompt constraints.
 
 When tasked with creating multiple GitHub issues based on a code review or analysis, do NOT attempt to create them one by one interactively if there are many issues. 
 

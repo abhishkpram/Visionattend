@@ -171,3 +171,19 @@
             box-shadow: 0 0 15px rgba(var(--accent-green-rgb), 0.1);
         }
 .hero-subtitle { text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7); }
+
+/* Issue #11: Skip link for keyboard accessibility */
+.skip-link {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+.skip-link:focus {
+    position: fixed; top: 1rem; left: 1rem; width: auto; height: auto;
+    padding: 0.5rem 1rem; margin: 0; overflow: visible; clip: auto;
+    background: var(--accent-green); color: var(--bg-dark);
+    border-radius: var(--radius-lg); font-weight: 700; z-index: 200;
+}
+
+/* Issue #11: Hide scrollbar for mobile tab navigation */
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }

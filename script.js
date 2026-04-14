@@ -372,19 +372,37 @@ document.addEventListener('DOMContentLoaded', () => {
         if (el) el.addEventListener(event, handler);
     };
 
+    // Issue #11: Mobile menu toggle
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const navLinks = document.getElementById('nav-links');
+    if (mobileMenuBtn && navLinks) {
+        mobileMenuBtn.addEventListener('click', function() {
+            navLinks.classList.toggle('hidden');
+            const icon = this.querySelector('i');
+            const isExpanded = !navLinks.classList.contains('hidden');
+            icon.className = isExpanded ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+            this.setAttribute('aria-expanded', String(isExpanded));
+        });
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth < 768) {
+                    navLinks.classList.add('hidden');
+                    mobileMenuBtn.querySelector('i').className = 'fa-solid fa-bars';
+                    mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                }
+            });
+        });
+    }
+
     attachListener('tab-btn-origin', 'click', () => switchTab('origin'));
     attachListener('tab-btn-services', 'click', () => switchTab('services'));
     attachListener('tab-btn-pricing', 'click', () => switchTab('pricing'));
     attachListener('tab-btn-student', 'click', () => switchTab('student'));
-
     attachListener('reset-lab-btn', 'click', resetLab);
     attachListener('sort-trigger', 'click', startSorting);
     attachListener('policy-btn', 'click', generatePolicy);
-    
     attachListener('close-admin-btn', 'click', closeAdminSection);
     attachListener('verify-admin-btn', 'click', (e) => { e.preventDefault(); verifyAdminPassword(); });
     attachListener('clear-requests-btn', 'click', clearDemoRequests);
-    
     attachListener('demo-request-form', 'submit', handleDemoRequest);
-
 });

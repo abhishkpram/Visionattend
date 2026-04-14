@@ -155,12 +155,61 @@ State Update
 
 ## Responsive Breakpoints
 
-| Device | Size | Class Prefix |
-|--------|------|-------------|
-| Mobile | < 768px | (no prefix) |
-| Tablet | 768px - 1024px | `md:` |
-| Desktop | 1024px - 1280px | `lg:` |
-| Large Desktop | > 1280px | `xl:` |
+| Device | Size | Class Prefix | Viewport Width |
+|--------|------|-------------|----------------|
+| Mobile | < 640px | (no prefix) | 320px - 480px |
+| Small | ≥ 640px | `sm:` | 480px - 768px |
+| Tablet | ≥ 768px | `md:` | 768px - 1024px |
+| Desktop | ≥ 1024px | `lg:` | 1024px - 1280px |
+| Large Desktop | ≥ 1280px | `xl:` | 1280px+ |
+
+### Mobile Navigation Pattern
+
+The navigation bar implements a hamburger menu pattern for mobile devices:
+
+```
+Desktop (≥768px): Horizontal nav links visible
+Mobile (<768px): Hamburger button → full-width dropdown menu
+```
+
+**Implementation**:
+- Nav container uses `hidden md:flex` to hide on mobile, show on desktop
+- Mobile toggle button uses `md:hidden` to show on mobile, hide on desktop
+- Mobile menu appears as full-width dropdown below navbar with `absolute` positioning
+- Menu auto-closes when a link is tapped on mobile
+
+### Mobile Tab Navigation
+
+Tab components (e.g., Voxeon Ecosystem tabs) switch from vertical sidebar to horizontal scrollable bar on mobile:
+
+```
+Desktop (≥768px): Vertical tab sidebar (1/3 width)
+Mobile (<768px): Horizontal scrollable tab bar (full width)
+```
+
+**Key features**:
+- `flex md:flex-col flex-row` - horizontal on mobile, vertical on desktop
+- `overflow-x-auto md:overflow-y-auto scrollbar-hide` - scrollable with hidden scrollbar
+- `flex-shrink-0 min-w-[140px]` - tabs don't shrink, minimum width for readability
+- Tab labels abbreviated on mobile (e.g., "The Genesis" → "Genesis")
+
+### Responsive Typography Scale
+
+| Element | Mobile (<640px) | Small (≥640px) | Tablet (≥768px) | Desktop (≥1024px) |
+|---------|-----------------|----------------|-----------------|-------------------|
+| Hero H1 | text-5xl (48px) | sm:text-6xl (60px) | md:text-7xl (72px) | lg:text-[10rem] (160px) |
+| Section H2 | text-3xl (30px) | - | md:text-5xl (48px) | lg:text-6xl (60px) |
+| Body text | text-lg (18px) | - | md:text-xl (20px) | lg:text-2xl (24px) |
+| Button text | text-base (16px) | - | md:text-lg (18px) | lg:text-xl (20px) |
+
+### Responsive Spacing Scale
+
+| Property | Mobile | Tablet | Desktop |
+|----------|--------|--------|---------|
+| Section padding | py-16 (64px) | md:py-24 (96px) | lg:py-32 (128px) |
+| Container padding | px-4 (16px) | md:px-6 (24px) | - |
+| Card padding | p-6 (24px) | md:p-8 (32px) | lg:p-10 (40px) |
+| Gap between items | gap-4 (16px) | md:gap-6 (24px) | lg:gap-8 (32px) |
 
 ## Browser Support
 

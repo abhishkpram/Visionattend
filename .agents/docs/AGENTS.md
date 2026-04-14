@@ -367,20 +367,148 @@ When working in a multi-agent environment (e.g., Claude, Codex, Qwen, Gemini, an
 
 1. **One Issue at a Time**:
    - Only pick up 1 GitHub issue at a time. Do not attempt to batch fix multiple unassigned issues unless specifically requested or using a dedicated batch skill.
-   
+
 2. **Mark Your Presence**:
    - Before starting work, comment on the issue to signal that you are working on it.
    - Example: `gh issue comment <issue_number> -b "Working on this."`
    - This ensures other agents checking the issue queue know it is claimed.
-   
+
 3. **Isolated Fixes**:
    - Make your changes targeting *only* the scope of the issue.
    - Commit the change with a clear message: `git commit -m "Fix #<issue_number>: <Description>"`
-   
+
 4. **Closing the Loop**:
    - Push your changes to the target branch (e.g., `main`).
    - Add a final comment to the issue summarizing the fix.
    - Close the issue properly: `gh issue close <issue_number>`
-   
+
 5. **Continuous Processing**:
    - After completing the loop, return to the queue and repeat the process for the next available issue.
+
+---
+
+## Skill 14: Mobile Responsive UI Implementation
+
+**Purpose**: Apply mobile-first responsive patterns to fix UI issues across all sections of a single-page application.
+
+**Scope**: Navigation menus, hero sections, tab components, grid layouts, contact forms
+
+**Key Patterns from Issue #11 (VisionAttend AI)**:
+
+### 1. Mobile Hamburger Menu
+```html
+<!-- Toggle button (visible only on mobile) -->
+<button id="mobile-menu-btn" class="md:hidden text-white text-2xl p-2" aria-label="Toggle mobile menu" aria-expanded="false">
+    <i class="fa-solid fa-bars"></i>
+</button>
+
+<!-- Nav: hidden on mobile, flex on desktop -->
+<div id="nav-links" class="hidden md:flex absolute md:static top-full left-0 w-full md:w-auto bg-slate-950/98 md:bg-transparent backdrop-blur-xl md:backdrop-blur-0 border-b border-white/10 md:border-0 flex-col md:flex-row">
+    <!-- Links with mobile-friendly padding -->
+    <a href="#section" class="py-3 md:py-0 w-full md:w-auto text-center">Section</a>
+</div>
+```
+
+### 2. JavaScript Menu Toggle
+```javascript
+const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+const navLinks = document.getElementById('nav-links');
+mobileMenuBtn.addEventListener('click', function() {
+    navLinks.classList.toggle('hidden');
+    const icon = this.querySelector('i');
+    const isExpanded = !navLinks.classList.contains('hidden');
+    icon.className = isExpanded ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+    this.setAttribute('aria-expanded', String(isExpanded));
+});
+```
+
+### 3. Responsive Text Sizing
+```html
+<!-- Hero heading: 5xl mobile → 6xl small → 7xl tablet → 10rem desktop -->
+<h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-[10rem]">Heading</h1>
+
+<!-- Subtitle -->
+<p class="text-lg md:text-xl lg:text-2xl">Description</p>
+```
+
+### 4. Responsive Spacing & Padding
+```html
+<!-- Section padding -->
+<section class="py-16 md:py-24 lg:py-32 px-4 md:px-6">
+
+<!-- Card padding -->
+<div class="p-6 md:p-8 lg:p-10">
+
+<!-- Gap between items -->
+<div class="gap-4 md:gap-6 lg:gap-8">
+```
+
+### 5. Responsive Grid Layouts
+```html
+<!-- 1 column mobile → 2 tablet → 4 desktop -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 lg:gap-10">
+```
+
+### 6. Mobile Tab Navigation (Horizontal Scroll)
+```html
+<div class="flex md:flex-col flex-row overflow-x-auto md:overflow-y-auto scrollbar-hide">
+    <button class="flex-shrink-0 min-w-[140px] p-4 md:p-8 text-center md:text-left">Tab 1</button>
+    <button class="flex-shrink-0 min-w-[140px] p-4 md:p-8 text-center md:text-left">Tab 2</button>
+</div>
+```
+With CSS utility:
+```css
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+```
+
+### 7. Skip-to-Content Link (Accessibility)
+```html
+<a href="#main-content" class="skip-link">Skip to main content</a>
+```
+```css
+.skip-link {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+.skip-link:focus {
+    position: fixed; top: 1rem; left: 1rem; width: auto; height: auto;
+    padding: 0.5rem 1rem; background: var(--accent-green); color: var(--bg-dark);
+    border-radius: 0.5rem; font-weight: 700; z-index: 200;
+}
+```
+
+### 8. Responsive External Links
+Always add `rel="noopener noreferrer"` to external links:
+```html
+<a href="https://instagram.com/voxeonlabs" target="_blank" rel="noopener noreferrer" aria-label="Visit Voxeon Labs on Instagram">
+```
+
+### 9. Form Validation Placeholders
+Add hidden error elements for each required field:
+```html
+<input id="field-name" required>
+<p id="error-name" class="text-red-400 text-xs hidden" role="alert"></p>
+```
+
+**Responsive Sizing Reference**:
+| Element | Mobile | Small | Tablet | Desktop |
+|---------|--------|-------|--------|---------|
+| Hero heading | text-5xl | sm:text-6xl | md:text-7xl | lg:text-[10rem] |
+| Section heading | text-3xl | - | md:text-5xl | lg:text-6xl |
+| Body text | text-lg | - | md:text-xl | lg:text-2xl |
+| Button text | text-base | - | md:text-lg | lg:text-xl |
+| Card padding | p-6 | - | md:p-8 | lg:p-10 |
+| Section padding | py-16 | - | md:py-24 | lg:py-32 |
+| Container padding | px-4 | - | md:px-6 | - |
+
+**Validation Checklist**:
+- [ ] Hamburger menu works on mobile (< 768px)
+- [ ] Nav collapses after link click on mobile
+- [ ] All text sizes have responsive breakpoints
+- [ ] Grid layouts adapt to screen size
+- [ ] Tab navigation is accessible on mobile
+- [ ] Skip link visible on focus
+- [ ] All external links have rel="noopener noreferrer"
+- [ ] Form error placeholders present
+- [ ] Tested on real mobile device (not just browser emulation)

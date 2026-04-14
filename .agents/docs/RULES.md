@@ -425,3 +425,38 @@ These rules are enforced through:
 
 ### Rule 15: PDF Generation
 - When generating PDFs from complex HTML DOM elements, prefer libraries like `html2canvas` combined with `jsPDF` (`doc.html()`) to capture styling correctly, rather than passing raw HTML strings to `doc.text()` or `doc.splitTextToSize()`.
+
+### Rule 16: Multi-Agent Conflict Resolution
+When multiple agents work on the same repository simultaneously:
+
+1. **Always pull before push**: `git pull --rebase origin main` before every push
+2. **Use `--force-with-lease` not `--force`**: Safer force push that won't overwrite others' work
+3. **Reset over resolve**: When rebase creates complex conflicts, prefer `git rebase --abort && git reset --hard origin/main` then re-apply your changes cleanly
+4. **Separate file concerns**: Different agents should edit different files when possible (one on HTML, one on CSS, one on JS)
+5. **Surgical over rewrite**: Small, targeted edits conflict less than full file rewrites
+
+### Rule 17: Mobile-First Responsive Requirements
+All UI elements MUST implement responsive breakpoints:
+
+1. **Navigation**: Hamburger menu on mobile (< 768px), horizontal nav on desktop
+2. **Typography**: Progressive sizing (e.g., text-5xl → sm:text-6xl → md:text-7xl → lg:text-[10rem])
+3. **Grids**: 1 column mobile → 2 columns tablet → 3-4 columns desktop
+4. **Tabs**: Horizontal scrollable on mobile, vertical sidebar on desktop
+5. **Spacing**: Progressive padding (py-16 → md:py-24 → lg:py-32)
+6. **Touch targets**: Minimum 44x44px for all interactive elements on mobile
+
+### Rule 18: External Link Security
+All external links (`target="_blank"`) MUST include `rel="noopener noreferrer"` to prevent tabnabbing attacks.
+
+### Rule 19: Accessibility Skip Link
+Every page MUST include a skip-to-content link for keyboard users:
+```html
+<a href="#main-content" class="skip-link">Skip to main content</a>
+```
+
+### Rule 20: Form Validation UI
+All required form fields MUST have associated error placeholder elements:
+```html
+<input id="field-name" required>
+<p id="error-name" class="text-red-400 text-xs hidden" role="alert"></p>
+```

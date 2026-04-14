@@ -334,3 +334,30 @@ Types: feat, fix, docs, style, refactor, perf, test
 - Use clear examples and code snippets
 - Link to related sections
 - Maintain table of contents
+
+---
+
+## Skill 13: Prototype Analysis & Issue Automation
+
+**Purpose**: Analyze monolithic or prototype codebases and efficiently batch-create GitHub issues for identified technical debt, readability, usability, and security concerns.
+
+**Scope**: Code review, GitHub issue creation automation, technical debt identification
+
+**Workflow**:
+1. Analyze the file(s) (e.g., a monolithic `index.html` with inline CSS/JS) for readability, usability, accessibility, and security issues.
+2. Formulate clear, actionable issue descriptions with problem statements and recommendations.
+3. Use a bash script to batch-create issues using the `gh issue create` command to avoid interactive prompt limitations.
+4. Execute the script and clean it up afterward.
+
+**Script Pattern**:
+```bash
+#!/bin/bash
+gh issue create --title "[Category] Title" --body "**Description:** ... **Recommendation:** ..."
+# ... repeat for each issue ...
+```
+
+**Best Practices**:
+- Always separate concerns (CSS, JS, HTML).
+- Never hardcode sensitive credentials (passwords, API keys) in client-side code.
+- Ensure interactive elements are backed by functioning backend endpoints or clear prototype warnings.
+- Provide descriptive `alt` tags and `aria-labels`.

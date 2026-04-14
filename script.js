@@ -80,14 +80,19 @@
         }
 
         function openAdminSection() {
-            document.getElementById('admin-section').classList.remove('hidden');
-            document.getElementById('admin-password').value = '';
-            document.getElementById('admin-error').classList.add('hidden');
-            document.getElementById('admin-content').classList.add('hidden');
+            // This function is now overridden in DOMContentLoaded
+            // Kept for backward compatibility
+            if (window.openAdminSection && window.openAdminSection !== openAdminSection) {
+                window.openAdminSection();
+            }
         }
 
         function closeAdminSection() {
-            document.getElementById('admin-section').classList.add('hidden');
+            // This function is now overridden in DOMContentLoaded
+            // Kept for backward compatibility
+            if (window.closeAdminSection && window.closeAdminSection !== closeAdminSection) {
+                window.closeAdminSection();
+            }
         }
 
         function loadDemoRequests() {
@@ -393,6 +398,92 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+
+    // Issue #12: Settings overlay menu toggle
+    const settingsMenuBtn = document.getElementById('settings-menu-btn');
+    const settingsOverlay = document.getElementById('settings-overlay');
+    const closeSettingsBtn = document.getElementById('close-settings-btn');
+    const settingsBackdrop = document.getElementById('settings-backdrop');
+    const openAdminBtn = document.getElementById('open-admin-btn');
+
+    function openSettingsMenu() {
+        if (settingsOverlay) {
+            settingsOverlay.classList.remove('hidden');
+            if (settingsMenuBtn) {
+                settingsMenuBtn.setAttribute('aria-expanded', 'true');
+            }
+            // Close mobile menu if open
+            if (navLinks && !navLinks.classList.contains('hidden')) {
+                navLinks.classList.add('hidden');
+                mobileMenuBtn.querySelector('i').className = 'fa-solid fa-bars';
+                mobileMenuBtn.setAttribute('aria-expanded', 'false');
+            }
+        }
+    }
+
+    function closeSettingsMenu() {
+        if (settingsOverlay) {
+            settingsOverlay.classList.add('hidden');
+            if (settingsMenuBtn) {
+                settingsMenuBtn.setAttribute('aria-expanded', 'false');
+            }
+        }
+    }
+
+    if (settingsMenuBtn) {
+        settingsMenuBtn.addEventListener('click', openSettingsMenu);
+    }
+
+    if (closeSettingsBtn) {
+        closeSettingsBtn.addEventListener('click', closeSettingsMenu);
+    }
+
+    if (settingsBackdrop) {
+        settingsBackdrop.addEventListener('click', closeSettingsMenu);
+    }
+
+    // Close settings on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            closeSettingsMenu();
+            closeAdminSection();
+        }
+    });
+
+    // Open admin panel from settings menu
+    if (openAdminBtn) {
+        openAdminBtn.addEventListener('click', () => {
+            closeSettingsMenu();
+            openAdminSection();
+        });
+    }
+
+    // Issue #12: Admin section functions
+    function openAdminSection() {
+        const adminSection = document.getElementById('admin-section');
+        if (adminSection) {
+            adminSection.classList.remove('hidden');
+            const adminPassword = document.getElementById('admin-password');
+            if (adminPassword) adminPassword.value = '';
+            const adminError = document.getElementById('admin-error');
+            if (adminError) adminError.classList.add('hidden');
+            const adminContent = document.getElementById('admin-content');
+            if (adminContent) adminContent.classList.add('hidden');
+            const adminLogin = document.getElementById('admin-login');
+            if (adminLogin) adminLogin.classList.remove('hidden');
+        }
+    }
+
+    function closeAdminSection() {
+        const adminSection = document.getElementById('admin-section');
+        if (adminSection) {
+            adminSection.classList.add('hidden');
+        }
+    }
+
+    // Make functions available globally
+    window.openAdminSection = openAdminSection;
+    window.closeAdminSection = closeAdminSection;
 
     attachListener('tab-btn-origin', 'click', () => switchTab('origin'));
     attachListener('tab-btn-services', 'click', () => switchTab('services'));

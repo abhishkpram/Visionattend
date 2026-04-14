@@ -187,3 +187,99 @@
 /* Issue #11: Hide scrollbar for mobile tab navigation */
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Issue #12: Settings overlay menu styles */
+#settings-overlay {
+    animation: fadeIn 0.2s ease-out;
+}
+
+#settings-panel {
+    animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+#settings-backdrop {
+    transition: opacity 0.2s ease-out;
+}
+
+/* Issue #12: Admin section styles */
+#admin-section {
+    animation: fadeIn 0.2s ease-out;
+}
+
+#admin-section > div:last-child {
+    animation: modalSlideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Issue #12: Mobile responsiveness for settings panel */
+@media (max-width: 768px) {
+    #settings-panel {
+        top: auto;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        width: 100%;
+        max-width: none;
+        border-radius: 1.5rem 1.5rem 0 0;
+        max-height: 85vh;
+        overflow-y: auto;
+    }
+    
+    #settings-panel .p-6.md\\:p-8 {
+        padding: 1.25rem;
+    }
+    
+    #settings-panel button {
+        padding: 1rem;
+    }
+    
+    #settings-panel button > div:first-child {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+    
+    #settings-panel button i:first-child {
+        font-size: 1.125rem;
+    }
+}
+
+/* Issue #12: Ensure proper spacing in settings menu items */
+#settings-panel .space-y-6 > * {
+    margin-bottom: 0;
+}
+
+#settings-panel .space-y-6 {
+    gap: 1rem;
+}
+
+@media (min-width: 768px) {
+    #settings-panel .space-y-6 {
+        gap: 1.5rem;
+    }
+}

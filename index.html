@@ -23,9 +23,14 @@
                 <img src="favicon.jpg" alt="Voxeon Labs Logo" width="54" height="54" class="logo-img">
                 <span class="font-orbitron font-bold brand-text text-white text-lg md:text-[1.25rem]">VISION<span class="text-emerald-400">ATTEND</span></span>
             </div>
-            <button id="mobile-menu-btn" class="md:hidden text-white text-2xl p-2" aria-label="Toggle mobile menu" aria-expanded="false">
-                <i class="fa-solid fa-bars"></i>
-            </button>
+            <div class="flex items-center gap-2">
+                <button id="settings-menu-btn" class="text-white text-xl p-2 hover:text-emerald-400 transition-colors" aria-label="Open settings menu" aria-expanded="false">
+                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                </button>
+                <button id="mobile-menu-btn" class="md:hidden text-white text-2xl p-2" aria-label="Toggle mobile menu" aria-expanded="false">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
             <div id="nav-links" class="hidden md:flex absolute md:static top-full left-0 w-full md:w-auto bg-slate-950/98 md:bg-transparent backdrop-blur-xl md:backdrop-blur-0 border-b border-white/10 md:border-0 flex-col md:flex-row items-center gap-2 md:gap-12 text-sm font-black text-slate-100 uppercase tracking-widest py-4 md:py-0 px-6 md:px-0">
                 <a href="#about-voxeon" class="hover:text-emerald-400 transition-colors py-3 md:py-0 w-full md:w-auto text-center">Voxeon Labs</a>
                 <a href="#sorting-lab" class="hover:text-emerald-400 transition-colors py-3 md:py-0 w-full md:w-auto text-center">Sorting Lab</a>
@@ -237,6 +242,99 @@
         </div>
     </section>
     </main>
+    
+    <!-- Settings Overlay Menu -->
+    <div id="settings-overlay" class="fixed inset-0 z-[150] hidden" role="dialog" aria-modal="true" aria-label="Settings menu">
+        <div id="settings-backdrop" class="absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
+        <div id="settings-panel" class="absolute top-16 right-4 md:right-8 w-[calc(100%-2rem)] md:w-96 max-w-md bg-slate-950/98 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl overflow-hidden">
+            <div class="p-6 md:p-8 border-b border-white/10">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-lg font-orbitron font-black text-white uppercase tracking-wider">
+                        <i class="fa-solid fa-gear text-emerald-400 mr-2"></i>Settings
+                    </h3>
+                    <button id="close-settings-btn" class="text-white text-xl p-2 hover:text-emerald-400 transition-colors" aria-label="Close settings menu">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="p-6 md:p-8 space-y-6">
+                <button id="open-admin-btn" class="w-full p-4 md:p-5 rounded-xl bg-white/5 border border-white/10 hover:bg-emerald-500/10 hover:border-emerald-500/30 transition-all flex items-center gap-4 text-left">
+                    <div class="w-12 h-12 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center flex-shrink-0">
+                        <i class="fa-solid fa-shield-halved text-emerald-400 text-xl"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="text-white font-bold text-sm md:text-base mb-1">Admin Panel</h4>
+                        <p class="text-slate-400 text-xs md:text-sm">Manage demo requests and system settings</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-slate-500"></i>
+                </button>
+                
+                <button class="w-full p-4 md:p-5 rounded-xl bg-white/5 border border-white/10 hover:bg-emerald-500/10 hover:border-emerald-500/30 transition-all flex items-center gap-4 text-left">
+                    <div class="w-12 h-12 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center flex-shrink-0">
+                        <i class="fa-solid fa-circle-info text-emerald-400 text-xl"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="text-white font-bold text-sm md:text-base mb-1">About</h4>
+                        <p class="text-slate-400 text-xs md:text-sm">VisionAttend AI v2.5 by Voxeon Labs</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-slate-500"></i>
+                </button>
+                
+                <button class="w-full p-4 md:p-5 rounded-xl bg-white/5 border border-white/10 hover:bg-emerald-500/10 hover:border-emerald-500/30 transition-all flex items-center gap-4 text-left">
+                    <div class="w-12 h-12 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center flex-shrink-0">
+                        <i class="fa-solid fa-book text-emerald-400 text-xl"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="text-white font-bold text-sm md:text-base mb-1">Documentation</h4>
+                        <p class="text-slate-400 text-xs md:text-sm">View API docs and integration guides</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-slate-500"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Admin Section -->
+    <div id="admin-section" class="fixed inset-0 z-[200] hidden" role="dialog" aria-modal="true" aria-label="Admin panel">
+        <div class="absolute inset-0 bg-black/90 backdrop-blur-md"></div>
+        <div class="absolute inset-4 md:inset-8 lg:inset-12 max-w-4xl mx-auto bg-slate-950/98 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+            <div class="p-6 md:p-8 border-b border-white/10 flex justify-between items-center">
+                <h3 class="text-xl md:text-2xl font-orbitron font-black text-white uppercase tracking-wider">
+                    <i class="fa-solid fa-shield-halved text-emerald-400 mr-2"></i>Admin Panel
+                </h3>
+                <button id="close-admin-btn" class="text-white text-2xl p-2 hover:text-emerald-400 transition-colors" aria-label="Close admin panel">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="flex-1 overflow-y-auto p-6 md:p-8">
+                <div id="admin-login" class="space-y-6 max-w-md mx-auto">
+                    <div class="text-center space-y-4">
+                        <i class="fa-solid fa-lock text-emerald-400 text-5xl"></i>
+                        <h4 class="text-lg font-bold text-white">Authentication Required</h4>
+                        <p class="text-slate-400 text-sm">Enter admin password to continue</p>
+                    </div>
+                    <div class="space-y-4">
+                        <label for="admin-password" class="sr-only">Admin Password</label>
+                        <input type="password" id="admin-password" placeholder="Enter password" class="w-full bg-slate-900 border border-white/20 rounded-xl p-4 text-white font-bold focus:ring-4 ring-emerald-500/40 outline-none">
+                        <p id="admin-error" class="text-red-400 text-sm hidden text-center" role="alert">Incorrect password. Access denied.</p>
+                        <button id="verify-admin-btn" class="w-full btn-primary py-4 rounded-xl text-base font-black">
+                            <i class="fa-solid fa-unlock mr-2"></i>Verify Access
+                        </button>
+                    </div>
+                </div>
+                <div id="admin-content" class="hidden space-y-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h4 class="text-lg font-bold text-white">Demo Requests</h4>
+                        <button id="clear-requests-btn" class="px-4 py-2 rounded-lg bg-rose-500/20 border border-rose-500/30 text-rose-400 text-sm font-bold hover:bg-rose-500/30 transition-all">
+                            <i class="fa-solid fa-trash mr-2"></i>Clear All
+                        </button>
+                    </div>
+                    <ul id="demo-requests" class="space-y-3 max-h-96 overflow-y-auto"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <footer class="py-12 md:py-16 border-t border-white/10 text-center bg-black" role="contentinfo">
         <p class="text-slate-500 text-xs md:text-sm font-black uppercase tracking-[0.2em] md:tracking-[0.3em]">&copy; 2026 Voxeon Labs &bull; VoxeonLabs Initiative</p>
     </footer>

@@ -188,7 +188,39 @@
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 
-/* Issue #12: Settings overlay menu styles */
+/* Issue #12: Mobile hamburger menu overlay with proper background and spacing */
+@media (max-width: 768px) {
+    #nav-links:not(.hidden) {
+        display: flex !important;
+        background: rgba(2, 6, 23, 0.98) !important;
+        backdrop-filter: blur(24px) !important;
+    }
+    
+    #nav-links .flex {
+        width: 100%;
+        padding-top: 6rem;
+    }
+    
+    #nav-links a {
+        padding-top: 1.5rem !important;
+        padding-bottom: 1.5rem !important;
+        font-size: 1.125rem !important;
+        letter-spacing: 0.15em !important;
+    }
+    
+    #nav-links a:not(:last-child) {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+    
+    #nav-links .btn-primary {
+        margin-top: 2rem !important;
+        padding-top: 1.25rem !important;
+        padding-bottom: 1.25rem !important;
+        font-size: 1rem !important;
+    }
+}
+
+/* Issue #12: Settings overlay menu styles (kept for admin access) */
 #settings-overlay {
     animation: fadeIn 0.2s ease-out;
 }

@@ -399,47 +399,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Issue #12: Settings overlay menu toggle
-    const settingsMenuBtn = document.getElementById('settings-menu-btn');
-    const settingsOverlay = document.getElementById('settings-overlay');
-    const closeSettingsBtn = document.getElementById('close-settings-btn');
-    const settingsBackdrop = document.getElementById('settings-backdrop');
-    const openAdminBtn = document.getElementById('open-admin-btn');
-
-    function openSettingsMenu() {
-        if (settingsOverlay) {
-            settingsOverlay.classList.remove('hidden');
-            if (settingsMenuBtn) {
-                settingsMenuBtn.setAttribute('aria-expanded', 'true');
-            }
-            // Close mobile menu if open
-            if (navLinks && !navLinks.classList.contains('hidden')) {
-                navLinks.classList.add('hidden');
-                mobileMenuBtn.querySelector('i').className = 'fa-solid fa-bars';
-                mobileMenuBtn.setAttribute('aria-expanded', 'false');
-            }
-        }
-    }
-
+    // Issue #12: Close settings menu function (kept for admin access)
     function closeSettingsMenu() {
+        const settingsOverlay = document.getElementById('settings-overlay');
+        const settingsMenuBtn = document.getElementById('settings-menu-btn');
         if (settingsOverlay) {
             settingsOverlay.classList.add('hidden');
             if (settingsMenuBtn) {
                 settingsMenuBtn.setAttribute('aria-expanded', 'false');
             }
         }
-    }
-
-    if (settingsMenuBtn) {
-        settingsMenuBtn.addEventListener('click', openSettingsMenu);
-    }
-
-    if (closeSettingsBtn) {
-        closeSettingsBtn.addEventListener('click', closeSettingsMenu);
-    }
-
-    if (settingsBackdrop) {
-        settingsBackdrop.addEventListener('click', closeSettingsMenu);
     }
 
     // Close settings on Escape key
@@ -451,6 +420,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Open admin panel from settings menu
+    const openAdminBtn = document.getElementById('open-admin-btn');
     if (openAdminBtn) {
         openAdminBtn.addEventListener('click', () => {
             closeSettingsMenu();

@@ -90,6 +90,22 @@
             document.getElementById('admin-section').classList.add('hidden');
         }
 
+        function loadDemoRequests() {
+            const requestList = document.getElementById('demo-requests');
+            const storedRequests = JSON.parse(localStorage.getItem('voxeonDemoRequests') || '[]');
+            if (storedRequests.length === 0) {
+                requestList.innerHTML = 'No requests yet.';
+                return;
+            }
+            requestList.innerHTML = '';
+            storedRequests.forEach(req => {
+                const item = document.createElement('li');
+                item.className = 'p-3 rounded-lg bg-slate-900/80 border border-emerald-500/20 mb-2';
+                item.innerHTML = `<strong>${req.name}</strong> (${req.org}, ${req.email})<br><span class="text-slate-400">${req.interest}</span><br>${req.message}`;
+                requestList.appendChild(item);
+            });
+        }
+
         function verifyAdminPassword() {
             const pw = document.getElementById('admin-password').value;
             const error = document.getElementById('admin-error');
@@ -97,6 +113,7 @@
             if(btoa(pw) === 'dm94MDAxY2Vv') {
                 error.classList.add('hidden');
                 content.classList.remove('hidden');
+                loadDemoRequests();
             } else {
                 error.classList.remove('hidden');
                 content.classList.add('hidden');
@@ -104,8 +121,8 @@
         }
 
         function clearDemoRequests() {
-            const requestList = document.getElementById('demo-requests');
-            requestList.innerHTML = 'No requests yet.';
+            localStorage.removeItem('voxeonDemoRequests');
+            loadDemoRequests();
         }
 
         async function handleDemoRequest(event) {
@@ -142,15 +159,17 @@
 
                 if (!response.ok) throw new Error('Server error');
 
-                const item = document.createElement('li');
-                item.className = 'p-3 rounded-lg bg-slate-900/80 border border-emerald-500/20';
-                item.innerHTML = `<strong>${name}</strong> (${org}, ${email})<br><span class="text-slate-400">${interest}</span><br>${message}`;
-
-                if (requestList.innerText.trim().toLowerCase() === 'no requests yet.') {
-                    requestList.innerText = '';
+                const newReq = { name, org, email, interest, message };
+                const storedRequests = JSON.parse(localStorage.getItem('voxeonDemoRequests') || '[]');
+                storedRequests.unshift(newReq);
+                localStorage.setItem('voxeonDemoRequests', JSON.stringify(storedRequests));
+                
+                // Update UI if admin section is open
+                const content = document.getElementById('admin-content');
+                if (!content.classList.contains('hidden')) {
+                    loadDemoRequests();
                 }
 
-                requestList.prepend(item);
                 alert('Transmission Received. Our AI Core will process your request.');
                 document.getElementById('demo-request-form').reset();
             } catch (error) {

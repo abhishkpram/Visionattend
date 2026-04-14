@@ -1,8 +1,16 @@
         :root {
             --accent-green: #00f06f;
+            --accent-green-rgb: 0, 240, 111;
             --accent-cyan: #00e5ff;
             --bg-dark: #020617;
             --card-bg: rgba(15, 23, 42, 0.75);
+            --card-bg-hover: rgba(15, 23, 42, 0.95);
+            --transition-default: all 0.3s ease;
+            --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            --shadow-md: 0 12px 40px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 25px 60px -10px rgba(var(--accent-green-rgb), 0.25);
+            --border-glass: 1px solid rgba(255, 255, 255, 0.12);
         }
         
         body {
@@ -25,22 +33,22 @@
         .glass-card {
             background: var(--card-bg);
             backdrop-filter: blur(24px);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: var(--border-glass);
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-smooth);
         }
 
         .glass-card:hover {
             border-color: var(--accent-green);
             transform: translateY(-8px);
-            background: rgba(15, 23, 42, 0.95);
-            box-shadow: 0 25px 60px -10px rgba(0, 240, 111, 0.25);
+            background: var(--card-bg-hover);
+            box-shadow: var(--shadow-lg);
         }
 
         .hero-gradient {
             background-color: var(--bg-dark);
             background-image: 
-                radial-gradient(circle at 15% 15%, rgba(0, 240, 111, 0.08) 0%, transparent 45%),
+                radial-gradient(circle at 15% 15%, rgba(var(--accent-green-rgb), 0.08) 0%, transparent 45%),
                 radial-gradient(circle at 85% 85%, rgba(0, 229, 255, 0.06) 0%, transparent 45%);
         }
 
@@ -50,7 +58,7 @@
             background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: 900;
-            filter: drop-shadow(0 4px 12px rgba(0, 240, 111, 0.4)) drop-shadow(0 0 20px rgba(0, 0, 0, 0.8));
+            filter: drop-shadow(0 4px 12px rgba(var(--accent-green-rgb), 0.4)) drop-shadow(0 0 20px rgba(0, 0, 0, 0.8));
             text-shadow: 0 0 30px rgba(0, 0, 0, 0.9);
         }
 
@@ -64,7 +72,7 @@
             background: linear-gradient(135deg, var(--accent-green), #00c25a);
             color: #000;
             font-weight: 800;
-            transition: all 0.3s ease;
+            transition: var(--transition-default);
             text-transform: uppercase;
             letter-spacing: 0.08em;
             display: inline-flex;
@@ -73,7 +81,7 @@
         }
 
         .btn-primary:hover {
-            box-shadow: 0 0 35px rgba(0, 240, 111, 0.7);
+            box-shadow: 0 0 35px rgba(var(--accent-green-rgb), 0.7);
             transform: scale(1.03);
         }
 
@@ -81,7 +89,7 @@
             background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: white;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: var(--transition-smooth);
         }
 
         .btn-instagram:hover {
@@ -91,7 +99,7 @@
         }
 
         .sort-item {
-            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            transition: var(--transition-bounce);
         }
 
         .scanner-line {
@@ -115,7 +123,7 @@
         .tab-active {
             border-bottom: 4px solid var(--accent-green);
             color: var(--accent-green) !important;
-            background: rgba(0, 240, 111, 0.08);
+            background: rgba(var(--accent-green-rgb), 0.08);
         }
 
         .loader {
@@ -154,11 +162,12 @@
             background: rgba(255,255,255,0.03);
             border: 1px solid rgba(255,255,255,0.1);
             color: white;
-            transition: all 0.3s ease;
+            transition: var(--transition-default);
         }
         .input-field:focus {
             background: rgba(255,255,255,0.07);
             border-color: var(--accent-green);
             outline: none;
-            box-shadow: 0 0 15px rgba(0, 240, 111, 0.1);
+            box-shadow: 0 0 15px rgba(var(--accent-green-rgb), 0.1);
         }
+.hero-subtitle { text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7); }

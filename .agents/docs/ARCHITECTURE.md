@@ -169,14 +169,53 @@ The navigation bar implements a hamburger menu pattern for mobile devices:
 
 ```
 Desktop (≥768px): Horizontal nav links visible
-Mobile (<768px): Hamburger button → full-width dropdown menu
+Mobile (<768px): Hamburger button → full-screen overlay menu
 ```
 
 **Implementation**:
 - Nav container uses `hidden md:flex` to hide on mobile, show on desktop
 - Mobile toggle button uses `md:hidden` to show on mobile, hide on desktop
-- Mobile menu appears as full-width dropdown below navbar with `absolute` positioning
+- Mobile menu appears as **full-screen overlay** with `fixed inset-0` positioning
+- Menu uses **solid background** (`bg-slate-950`) - NOT transparent
+- Z-index set to `9999` to ensure full coverage over all content
 - Menu auto-closes when a link is tapped on mobile
+
+**CRITICAL - Background Visibility (Issue #12)**:
+- ✅ Use **solid backgrounds only** (`bg-slate-950`, not `bg-slate-950/98`)
+- ❌ Never use transparent backgrounds - they cause visibility issues
+- ✅ Set `opacity: 1` in CSS to force full visibility
+- ❌ Avoid `backdrop-blur` on mobile overlays
+
+**HTML Structure**:
+\`\`\`html
+<button id="mobile-menu-btn" class="md:hidden" aria-label="Toggle mobile menu">
+    <i class="fa-solid fa-bars"></i>
+</button>
+
+<div id="nav-links" class="hidden md:flex fixed inset-0 md:static bg-slate-950 md:bg-transparent z-[9999]">
+    <div class="flex flex-col pt-12">
+        <a href="#section" class="py-6 text-xl border-b border-white/10">Section</a>
+    </div>
+</div>
+\`\`\`
+
+**CSS Enforcement**:
+\`\`\`css
+@media (max-width: 768px) {
+    #nav-links:not(.hidden) {
+        background-color: #020617 !important; /* Solid, not transparent! */
+        opacity: 1 !important;
+    }
+}
+\`\`\`
+
+**JavaScript Toggle**:
+\`\`\`javascript
+mobileMenuBtn.addEventListener('click', function() {
+    navLinks.classList.toggle('hidden');
+    // Update icon and aria-expanded state
+});
+\`\`\`
 
 ### Mobile Tab Navigation
 

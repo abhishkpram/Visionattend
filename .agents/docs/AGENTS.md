@@ -554,6 +554,106 @@ function loadRequests() {
 
 ---
 
+## Skill 17: Mobile Overlay Menu Implementation (Issue #12 Learnings)
+
+**Purpose**: Implement mobile hamburger menu overlays with proper background visibility and spacing.
+
+**Scope**: Hamburger menus, overlay backgrounds, mobile navigation, spacing, z-index layering
+
+**Critical Lessons from Issue #12**:
+1. **Never use transparent backgrounds** for mobile overlays - they cause visibility issues
+2. **Always use solid colors** for overlay backgrounds (e.g., `bg-slate-950` not `bg-slate-950/98`)
+3. **Set opacity to 1** explicitly in CSS to ensure full visibility
+4. **Use high z-index** (9999) to ensure overlay covers all content
+5. **Avoid backdrop-blur** on mobile overlays - it can cause transparency issues
+6. **Add proper spacing** between menu items for mobile readability
+
+**Implementation Pattern**:
+
+\`\`\`html
+<!-- Hamburger Button (mobile only) -->
+<button id="mobile-menu-btn" class="md:hidden text-white text-2xl p-2" aria-label="Toggle mobile menu" aria-expanded="false">
+    <i class="fa-solid fa-bars"></i>
+</button>
+
+<!-- Navigation Overlay -->
+<div id="nav-links" class="hidden md:flex fixed inset-0 md:static top-0 left-0 w-full h-screen bg-slate-950 md:bg-transparent flex-col md:flex-row items-center justify-center gap-0 md:gap-12 pt-20 md:pt-0 z-[9999] md:z-auto overflow-y-auto md:overflow-visible">
+    <div class="w-full flex flex-col items-stretch gap-0 pt-12 md:pt-0">
+        <a href="#section1" class="py-6 text-xl text-center border-b border-white/10">Section 1</a>
+        <a href="#section2" class="py-6 text-xl text-center border-b border-white/10">Section 2</a>
+        <a href="#contact" class="btn-primary py-5 text-base mt-6 w-11/12 mx-auto">Book Demo</a>
+    </div>
+</div>
+\`\`\`
+
+**CSS for Mobile Overlay**:
+
+\`\`\`css
+@media (max-width: 768px) {
+    #nav-links:not(.hidden) {
+        display: flex !important;
+        background-color: #020617 !important; /* Solid color, NOT transparent */
+        background-image: none !important;
+        opacity: 1 !important; /* Force full visibility */
+    }
+    
+    #nav-links a {
+        padding: 1.5rem 0 !important;
+        font-size: 1.25rem !important; /* Larger for readability */
+    }
+    
+    #nav-links a:not(:last-child) {
+        border-bottom: 2px solid rgba(255, 255, 255, 0.1) !important;
+    }
+}
+\`\`\`
+
+**JavaScript Toggle**:
+
+\`\`\`javascript
+const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+const navLinks = document.getElementById('nav-links');
+
+mobileMenuBtn.addEventListener('click', function() {
+    navLinks.classList.toggle('hidden');
+    const icon = this.querySelector('i');
+    const isExpanded = !navLinks.classList.contains('hidden');
+    icon.className = isExpanded ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+    this.setAttribute('aria-expanded', String(isExpanded));
+});
+
+// Close menu when link is clicked
+navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+        if (window.innerWidth < 768) {
+            navLinks.classList.add('hidden');
+            mobileMenuBtn.querySelector('i').className = 'fa-solid fa-bars';
+            mobileMenuBtn.setAttribute('aria-expanded', 'false');
+        }
+    });
+});
+\`\`\`
+
+**Common Mistakes to Avoid**:
+- ❌ Using \`bg-slate-950/98\` (transparent) - causes visibility issues
+- ❌ Using \`backdrop-blur\` on mobile overlays - can cause transparency
+- ❌ Low z-index (e.g., 90) - overlay won't cover all content
+- ❌ Small fonts (e.g., text-sm) - hard to read on mobile
+- ❌ Tight spacing - items cramped together, difficult to tap
+
+**Validation Checklist**:
+- [ ] Overlay has **solid background color** (not transparent)
+- [ ] Opacity set to 1 in CSS
+- [ ] Z-index is 9999 or higher
+- [ ] No backdrop-blur on mobile overlay
+- [ ] Menu items have adequate spacing (min 1.5rem padding)
+- [ ] Font size is large enough for mobile (min 1.125rem)
+- [ ] Tested on real mobile device (not just browser emulation)
+- [ ] Menu closes when link is clicked
+- [ ] Hamburger icon changes to X when open
+
+---
+
 ## Multi-Agent Collaboration Workflow (GitHub Issues)
 
 When working in a multi-agent environment (e.g., Claude, Codex, Qwen, Gemini, and other agents collaborating on a repository), follow these strict GitHub Issue workflows to avoid conflicts and overlapping work:

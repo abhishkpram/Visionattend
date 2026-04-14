@@ -438,3 +438,46 @@ These rules are enforced through:
 
 ### Rule 16: Prototype Security
 - Never store sensitive credentials in plain text. For prototypes, use at least simple obfuscation (e.g., Base64/btoa) to prevent casual discovery, and clearly document that it is NOT a secure production-grade solution.
+
+### Rule 17: Mobile Overlay Backgrounds (Issue #12)
+**CRITICAL**: Mobile navigation overlays MUST have fully visible backgrounds.
+
+**Requirements**:
+- ✅ Use **solid background colors** only (e.g., `bg-slate-950`, `#020617`)
+- ❌ **NEVER** use transparent backgrounds (e.g., `bg-slate-950/98`, `bg-black/80`)
+- ✅ Set `opacity: 1` explicitly in CSS
+- ✅ Use `z-index: 9999` or higher for full coverage
+- ❌ **DO NOT** use `backdrop-blur` on mobile overlays
+- ✅ Minimum font size: `1.125rem` (18px) for readability
+- ✅ Minimum padding: `1.5rem` between menu items
+
+**Rationale**: Transparent backgrounds cause visibility issues where menu items blend with underlying content, making the navigation difficult to use on mobile devices.
+
+**Example**:
+\`\`\`css
+/* GOOD - Solid background */
+@media (max-width: 768px) {
+    #nav-links:not(.hidden) {
+        background-color: #020617 !important;
+        opacity: 1 !important;
+    }
+}
+
+/* BAD - Transparent background causes visibility issues */
+@media (max-width: 768px) {
+    #nav-links:not(.hidden) {
+        background-color: rgba(2, 6, 23, 0.98) !important; /* DON'T DO THIS */
+    }
+}
+\`\`\`
+
+### Rule 18: Mobile Menu Spacing (Issue #12)
+Mobile menu items MUST have adequate spacing for touch interaction.
+
+**Requirements**:
+- Minimum vertical spacing: `1.5rem` (24px) padding top/bottom
+- Minimum touch target: `44px` height (WCAG AA)
+- Font size: minimum `1.125rem` (18px)
+- Visual separators between items (e.g., borders)
+
+**Rationale**: Cramped menu items are difficult to tap accurately on mobile devices, leading to poor user experience.

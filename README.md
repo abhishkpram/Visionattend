@@ -117,3 +117,6 @@ All initial GitHub issues have been resolved:
 | 9 | Refactor `href="#"` navigation | ✅ Closed | `ddd5616` |
 | 10 | Improve CSS maintainability | ✅ Closed | `58cfc06` |
 | 11 | Mobile UI responsiveness | ✅ Closed | `7c67be4` |
+| 12 | Mobile hamburger menu overlay | ✅ Closed | `af940b9` |
+| 13 | Restore brand text hyperlink | ✅ Closed | `2206dbc` |
+| 14 | Add mobile menu close button | ✅ Closed | `2206dbc` |

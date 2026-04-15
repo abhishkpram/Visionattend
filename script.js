@@ -393,7 +393,9 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Issue #14: Close button inside mobile menu
         if (closeMobileMenuBtn) {
-            closeMobileMenuBtn.addEventListener('click', () => {
+            closeMobileMenuBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
                 navLinks.classList.add('hidden');
                 mobileMenuBtn.querySelector('i').className = 'fa-solid fa-bars';
                 mobileMenuBtn.setAttribute('aria-expanded', 'false');

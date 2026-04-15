@@ -380,6 +380,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Issue #11: Mobile menu toggle
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     const navLinks = document.getElementById('nav-links');
+    const closeMobileMenuBtn = document.getElementById('close-mobile-menu');
+    
     if (mobileMenuBtn && navLinks) {
         mobileMenuBtn.addEventListener('click', function() {
             navLinks.classList.toggle('hidden');
@@ -388,6 +390,16 @@ document.addEventListener('DOMContentLoaded', () => {
             icon.className = isExpanded ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
             this.setAttribute('aria-expanded', String(isExpanded));
         });
+        
+        // Issue #14: Close button inside mobile menu
+        if (closeMobileMenuBtn) {
+            closeMobileMenuBtn.addEventListener('click', () => {
+                navLinks.classList.add('hidden');
+                mobileMenuBtn.querySelector('i').className = 'fa-solid fa-bars';
+                mobileMenuBtn.setAttribute('aria-expanded', 'false');
+            });
+        }
+        
         navLinks.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
                 if (window.innerWidth < 768) {
@@ -397,6 +409,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         });
+    }
+
+    // Issue #14: Close settings menu button
+    const closeSettingsBtn = document.getElementById('close-settings-btn');
+    if (closeSettingsBtn) {
+        closeSettingsBtn.addEventListener('click', closeSettingsMenu);
     }
 
     // Issue #12: Close settings menu function (kept for admin access)
